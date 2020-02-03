@@ -1,9 +1,45 @@
 import math
 
 
-def create_child_nodes(initial_node):
-    print("Creating child nodes")
-    # TODO Implement node creating
+class Node:
+    def __init__(self, node):
+        self.id = node
+        self.child_node = {}  # Dictionary containing children
+
+    def add_child(self, child):
+        self.child_node[child] = 1  # Each node children weight is 1
+
+    def get_id(self):
+        return self.id  # Can be useful...
+
+
+class Graph:
+    def __init__(self):
+        self.node_dict = {}  # Dictionary containig nodes
+        self.nb_nodes = 0
+
+    def add_node(self, node):
+        self.nb_nodes += 1
+        new_node = Node(node)
+        self.nodeDict[node] = new_node
+        return new_node
+
+    def link_parent_child(self, parent, child):
+        # If child node does not exist create it
+        if child not in self.node_dict:
+            self.add_node(child)
+        self.node_dict[parent].add_child(self.node_dict[child])
+
+
+def create_child_node(initial_node):
+    print("Creating tree")
+    # Creates children of the initial
+    for i in initial_node:
+        child_node = flip_adjacent_nodes(initial_node, i)
+        g.add_node(child_node)
+        g.link_parent_child(initial_node, child_node)
+    # TODO Create not only for the initial node but for children of children of initial node
+    # PB : when do i know when i can stop the loop
 
 
 def flip_token(token):
@@ -90,3 +126,4 @@ def flip_adjacent_nodes(board, index):
 # Example using flip_adjacent_nodes
 # initial_board = "0000000000000000"
 # new_board = flip_adjacent_nodes(initial_board, 4)
+#g = Graph()
