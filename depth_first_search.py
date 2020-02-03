@@ -21,7 +21,7 @@ class Graph:
     def add_node(self, node):
         self.nb_nodes += 1
         new_node = Node(node)
-        self.nodeDict[node] = new_node
+        self.node_dict[node] = new_node
         return new_node
 
     def link_parent_child(self, parent, child):
@@ -121,9 +121,10 @@ def flip_adjacent_nodes(board, index):
 
     return ''.join(new_board)
 
+
 # TODO Implement txt file parser
 
 # Example using flip_adjacent_nodes
 # initial_board = "0000000000000000"
 # new_board = flip_adjacent_nodes(initial_board, 4)
-#g = Graph()
+g = Graph()
