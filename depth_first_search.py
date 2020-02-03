@@ -1,8 +1,8 @@
+
+
 def create_child_nodes(initial_node):
     print("Creating child nodes")
     # TODO Implement node creating
-
-
 
 
 def flip_token(token):
@@ -78,4 +78,6 @@ def flip_adjacent_nodes(board, n, index):
         board[token_below] = flip_token(board[token_below])
         board[token_left] = flip_token(board[token_left])
         board[token_right] = flip_token(board[token_right])
+
+
 # TODO Implement txt file parser
