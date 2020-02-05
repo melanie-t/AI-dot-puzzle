@@ -172,6 +172,10 @@ search_list.append(initial_board)
 
 solved = False
 
+# TODO Position conversion given an index
+# TODO Max depth
+# TODO File output
+# TODO Tie breaking
 while not len(search_list) == 0 and not solved:
     visited_node = visit_next_node(open_list, closed_list, search_list, search_path)
     if visited_node == 1:
