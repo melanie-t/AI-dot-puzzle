@@ -1,47 +1,4 @@
 import math
-
-
-class Node:
-    def __init__(self, node):
-        self.id = node
-        self.child_node = {}  # Dictionary containing children
-
-    def add_child(self, child):
-        self.child_node[child] = 1  # Each node children weight is 1
-
-    def get_id(self):
-        return self.id  # Can be useful...
-
-
-class Graph:
-    def __init__(self):
-        self.node_dict = {}  # Dictionary containig nodes
-        self.nb_nodes = 0
-
-    def add_node(self, node):
-        self.nb_nodes += 1
-        new_node = Node(node)
-        self.node_dict[node] = new_node
-        return new_node
-
-    def link_parent_child(self, parent, child):
-        # If child node does not exist create it
-        if child not in self.node_dict:
-            self.add_node(child)
-        self.node_dict[parent].add_child(self.node_dict[child])
-
-
-def create_child_node(initial_node):
-    print("Creating tree")
-    # Creates children of the initial
-    for i in initial_node:
-        child_node = flip_adjacent_nodes(initial_node, i)
-        g.add_node(child_node)
-        g.link_parent_child(initial_node, child_node)
-    # TODO Create not only for the initial node but for children of children of initial node
-    # PB : when do i know when i can stop the loop
-
-
 def flip_token(token):
     if token == '0':
         return '1'
@@ -122,9 +79,70 @@ def flip_adjacent_nodes(board, index):
     return ''.join(new_board)
 
 
-# TODO Implement txt file parser
+def create_child_nodes(__initial_node, __open_list, __closed_list, __search_list):
+    # Creates children of the initial
+    print("Generated child nodes for ", __initial_node)
+    for token in range(0, len(__initial_node)):
+        __child_node = flip_adjacent_nodes(__initial_node, token)
+        # Check to see if the node exists already
+        __node_exists = __child_node in __open_list or __child_node in __closed_list
+        if not __node_exists:
+            # Add the child node to the open list and pop into search list stack
+            print("\t\tDiscovered", __child_node)
+            __open_list.append(__child_node)
+            __search_list.append(__child_node)
 
-# Example using flip_adjacent_nodes
-# initial_board = "0000000000000000"
-# new_board = flip_adjacent_nodes(initial_board, 4)
-g = Graph()
+
+
+def visit_next_node(__open_list, __closed_list, __search_list):
+    __visited_node = __search_list.pop()
+    __open_list.remove(__visited_node)
+    __closed_list.append(__visited_node)
+    print("Visit node", __visited_node)
+
+    # Goal state
+    if __visited_node.find("1") == -1:
+        print("Solution found")
+        print("Search path (" + str(len(__closed_list)) + ")", __closed_list)
+        __search_list = []
+        return 1
+    return __visited_node
+
+
+closed_list = []
+open_list = []
+search_list = []
+solution_path = []
+
+# Initial board set up
+n = 2
+initial_board = "0110"
+
+# n = 3
+# initial_board = "011100010"
+
+max_depth = 4
+current_depth = 1
+open_list.append(initial_board)
+search_list.append(initial_board)
+solved = False
+
+# TODO Position conversion given an index
+# TODO Max depth
+# TODO File output
+# TODO Tie breaking
+while not len(search_list) == 0 and not solved:
+    visited_node = visit_next_node(open_list, closed_list, search_list)
+    if visited_node == 1:
+        solved = True
+        break
+    create_child_nodes(visited_node, open_list, closed_list, search_list)
+    print("Closed list (" + str(len(closed_list)) + ")", closed_list)
+    print("Open list (" + str(len(open_list)) + ")", open_list)
+    print("Search list (" + str(len(search_list)) + ")", search_list)
+    print()
+    # current_depth += 1
+
+if len(search_list) == 0 and not solved:
+    print("No solution")
+
