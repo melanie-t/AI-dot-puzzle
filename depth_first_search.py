@@ -42,6 +42,20 @@ def create_child_node(initial_node):
     # PB : when do i know when i can stop the loop
 
 
+def create_child_nodes(initial_node, __open_list, __closed_list, __search_list):
+    # Creates children of the initial
+    print("Generated child nodes for " + initial_node)
+    for i in range(0, len(initial_node)):
+        child_node = flip_adjacent_nodes(initial_node, i)
+        print("\t\t" + child_node)
+        # Check to see if the node exists already
+        node_exists = child_node in __open_list or child_node in __closed_list
+        if not node_exists:
+            # Add the child node to the open list and pop into search list stack
+            __open_list.add(child_node)
+            __search_list.append(child_node)
+
+
 def flip_token(token):
     if token == '0':
         return '1'
