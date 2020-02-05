@@ -172,4 +172,18 @@ search_list.append(initial_board)
 
 solved = False
 
+while not len(search_list) == 0 and not solved:
+    visited_node = visit_next_node(open_list, closed_list, search_list, search_path)
+    if visited_node == 1:
+        solved = True
+        break
+    number_of_children = create_child_nodes(visited_node, open_list, closed_list, search_list)
+    print("Closed list (" + str(len(closed_list)) + ")", closed_list)
+    print("Open list (" + str(len(open_list)) + ")", open_list)
+    print("Search list (" + str(len(search_list)) + ")", search_list)
+    print()
+    # current_depth += 1
+
+if len(search_list) == 0 and not solved:
+    print("No solution")
 
