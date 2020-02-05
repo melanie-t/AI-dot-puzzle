@@ -135,18 +135,16 @@ def flip_adjacent_nodes(board, index):
     return ''.join(new_board)
 
 
-def visit_next_node(__open_list, __closed_list, __search_list, __search_path):
+def visit_next_node(__open_list, __closed_list, __search_list):
     __visited_node = __search_list.pop()
-    __search_path.append(__visited_node)
-    print("Visit node", __visited_node)
-
     __open_list.remove(__visited_node)
     __closed_list.append(__visited_node)
+    print("Visit node", __visited_node)
 
     # Goal state
     if __visited_node.find("1") == -1:
         print("Solution found")
-        print("Search path (" + str(len(__search_path)) + ")", __search_path)
+        print("Search path (" + str(len(__closed_list)) + ")", __closed_list)
         __search_list = []
         return 1
     return __visited_node
@@ -155,7 +153,6 @@ def visit_next_node(__open_list, __closed_list, __search_list, __search_path):
 closed_list = []
 open_list = []
 search_list = []
-search_path = []
 solution_path = []
 
 # Initial board set up
@@ -177,7 +174,7 @@ solved = False
 # TODO File output
 # TODO Tie breaking
 while not len(search_list) == 0 and not solved:
-    visited_node = visit_next_node(open_list, closed_list, search_list, search_path)
+    visited_node = visit_next_node(open_list, closed_list, search_list)
     if visited_node == 1:
         solved = True
         break
