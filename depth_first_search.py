@@ -43,16 +43,16 @@ class Graph:
 
 def create_child_nodes(__initial_node, __open_list, __closed_list, __search_list):
     # Creates children of the initial
-    print("Generated child nodes for " + initial_node)
-    for i in range(0, len(initial_node)):
-        child_node = flip_adjacent_nodes(initial_node, i)
-        print("\t\t" + child_node)
+    print("Generated child nodes for ", __initial_node)
+    for token in range(0, len(__initial_node)):
+        __child_node = flip_adjacent_nodes(__initial_node, token)
         # Check to see if the node exists already
-        node_exists = child_node in __open_list or child_node in __closed_list
-        if not node_exists:
+        __node_exists = __child_node in __open_list or __child_node in __closed_list
+        if not __node_exists:
             # Add the child node to the open list and pop into search list stack
-            __open_list.add(child_node)
-            __search_list.append(child_node)
+            print("\t\tDiscovered", __child_node)
+            __open_list.append(__child_node)
+            __search_list.append(__child_node)
 
 
 def flip_token(token):
