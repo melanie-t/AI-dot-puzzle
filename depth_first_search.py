@@ -1,46 +1,5 @@
 import math
 
-
-class Node:
-    def __init__(self, node):
-        self.id = node
-        self.child_node = {}  # Dictionary containing children
-
-    def add_child(self, child):
-        self.child_node[child] = 1  # Each node children weight is 1
-
-    def get_id(self):
-        return self.id  # Can be useful...
-
-
-class Graph:
-    def __init__(self):
-        self.node_dict = {}  # Dictionary containig nodes
-        self.nb_nodes = 0
-
-    def add_node(self, node):
-        self.nb_nodes += 1
-        new_node = Node(node)
-        self.node_dict[node] = new_node
-        return new_node
-
-    def link_parent_child(self, parent, child):
-        # If child node does not exist create it
-        if child not in self.node_dict:
-            self.add_node(child)
-        self.node_dict[parent].add_child(self.node_dict[child])
-
-# TODO Remove?
-# def create_child_node(initial_node):
-#     print("Creating tree")
-#     # Creates children of the initial
-#     for i in initial_node:
-#         child_node = flip_adjacent_nodes(initial_node, i)
-#         g.add_node(child_node)
-#         g.link_parent_child(initial_node, child_node)
-#     # PB : when do i know when i can stop the loop
-
-
 def create_child_nodes(__initial_node, __open_list, __closed_list, __search_list):
     # Creates children of the initial
     print("Generated child nodes for ", __initial_node)
