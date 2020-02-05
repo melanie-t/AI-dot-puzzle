@@ -135,10 +135,13 @@ def flip_adjacent_nodes(board, index):
 
     return ''.join(new_board)
 
+closed_list = set()
+open_list = set()
+search_list = []
 
-# TODO Implement txt file parser
+# Initial board set up
+n = 3
+initial_board = "011010011"
+max_depth = 10
+current_depth = 1
 
-# Example using flip_adjacent_nodes
-# initial_board = "0000000000000000"
-# new_board = flip_adjacent_nodes(initial_board, 4)
-g = Graph()
