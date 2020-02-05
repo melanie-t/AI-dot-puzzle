@@ -150,11 +150,26 @@ def visit_next_node(__open_list, __closed_list, __search_list, __search_path):
         __search_list = []
         return 1
     return __visited_node
+
+
+closed_list = []
+open_list = []
 search_list = []
+search_path = []
+solution_path = []
 
 # Initial board set up
-n = 3
-initial_board = "011010011"
-max_depth = 10
+n = 2
+initial_board = "0110"
+
+# n = 3
+# initial_board = "011100010"
+
+max_depth = 4
 current_depth = 1
+open_list.append(initial_board)
+search_list.append(initial_board)
+
+solved = False
+
 
