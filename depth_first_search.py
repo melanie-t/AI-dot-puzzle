@@ -134,8 +134,22 @@ def flip_adjacent_nodes(board, index):
 
     return ''.join(new_board)
 
-closed_list = set()
-open_list = set()
+
+def visit_next_node(__open_list, __closed_list, __search_list, __search_path):
+    __visited_node = __search_list.pop()
+    __search_path.append(__visited_node)
+    print("Visit node", __visited_node)
+
+    __open_list.remove(__visited_node)
+    __closed_list.append(__visited_node)
+
+    # Goal state
+    if __visited_node.find("1") == -1:
+        print("Solution found")
+        print("Search path (" + str(len(__search_path)) + ")", __search_path)
+        __search_list = []
+        return 1
+    return __visited_node
 search_list = []
 
 # Initial board set up
