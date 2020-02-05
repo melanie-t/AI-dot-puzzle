@@ -30,19 +30,18 @@ class Graph:
             self.add_node(child)
         self.node_dict[parent].add_child(self.node_dict[child])
 
+# TODO Remove?
+# def create_child_node(initial_node):
+#     print("Creating tree")
+#     # Creates children of the initial
+#     for i in initial_node:
+#         child_node = flip_adjacent_nodes(initial_node, i)
+#         g.add_node(child_node)
+#         g.link_parent_child(initial_node, child_node)
+#     # PB : when do i know when i can stop the loop
 
-def create_child_node(initial_node):
-    print("Creating tree")
-    # Creates children of the initial
-    for i in initial_node:
-        child_node = flip_adjacent_nodes(initial_node, i)
-        g.add_node(child_node)
-        g.link_parent_child(initial_node, child_node)
-    # TODO Create not only for the initial node but for children of children of initial node
-    # PB : when do i know when i can stop the loop
 
-
-def create_child_nodes(initial_node, __open_list, __closed_list, __search_list):
+def create_child_nodes(__initial_node, __open_list, __closed_list, __search_list):
     # Creates children of the initial
     print("Generated child nodes for " + initial_node)
     for i in range(0, len(initial_node)):
