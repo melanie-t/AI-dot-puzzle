@@ -1,9 +1,8 @@
 import math
 
-# Visit node
-# Generate children nodes
-# Sort the children nodes and add to the open list
-# Check if they are the goal state
+# TODO File output
+# TODO Solution path
+# TODO Read file and input into variables
 
 
 def flip_token(token):
@@ -149,18 +148,19 @@ def main():
     depth_list[initial_board] = 1
     solved = False
 
-    # TODO File output
-    # TODO Tie breaking
     while not len(open_list) == 0 and not solved:
+        # Visit node
         visited_node = visit_next_node(open_list, closed_list, depth_list, search_path, current_depth, max_depth)
         current_depth = visited_node[1]
+        # Check if the goal state is returned
         if visited_node[1] == -1:
             solved = True
             break
 
         if current_depth < max_depth:
-            # Update the current_depth since we have made child_nodes
+            # Update the current_depth since we have generated child_nodes
             current_depth += 1
+            # Generate children nodes, sort the children nodes and add to the open list
             create_child_nodes(visited_node[0], open_list, closed_list, depth_list, current_depth)
             print("Updated depth:", current_depth)
             print("Closed list (" + str(len(closed_list)) + ")", closed_list)
@@ -170,7 +170,6 @@ def main():
             print()
         else:
             print("\tMAX DEPTH\n")
-        # current_depth += 1
 
     if len(open_list) == 0:
         if solved:
