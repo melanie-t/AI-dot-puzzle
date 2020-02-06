@@ -109,42 +109,6 @@ def visit_next_node(__open_list, __closed_list, __search_list):
     return __visited_node
 
 
-closed_list = []
-open_list = []
-search_list = []
-solution_path = []
-
-# Initial board set up
-n = 2
-initial_board = "0110"
-
-# n = 3
-# initial_board = "011100010"
-
-max_depth = 4
-current_depth = 1
-open_list.append(initial_board)
-search_list.append(initial_board)
-solved = False
-
-# TODO Position conversion given an index
-# TODO Max depth
-# TODO File output
-# TODO Tie breaking
-while not len(search_list) == 0 and not solved:
-    visited_node = visit_next_node(open_list, closed_list, search_list)
-    if visited_node == 1:
-        solved = True
-        break
-    create_child_nodes(visited_node, open_list, closed_list, search_list)
-    print("Closed list (" + str(len(closed_list)) + ")", closed_list)
-    print("Open list (" + str(len(open_list)) + ")", open_list)
-    print("Search list (" + str(len(search_list)) + ")", search_list)
-    print()
-    # current_depth += 1
-
-if len(search_list) == 0 and not solved:
-    print("No solution")
 def main():
     depth_list = dict()
     closed_list = []
