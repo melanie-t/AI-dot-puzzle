@@ -1,4 +1,11 @@
 import math
+
+# Visit node
+# Generate children nodes
+# Sort the children nodes and add to the open list
+# Check if they are the goal state
+
+
 def flip_token(token):
     if token == '0':
         return '1'
@@ -79,70 +86,101 @@ def flip_adjacent_nodes(board, index):
     return ''.join(new_board)
 
 
-def create_child_nodes(__initial_node, __open_list, __closed_list, __search_list):
+def create_child_nodes(initial_node, open_list, closed_list, depth_list, current_depth):
     # Creates children of the initial
-    print("Generated child nodes for ", __initial_node)
-    for token in range(0, len(__initial_node)):
-        __child_node = flip_adjacent_nodes(__initial_node, token)
+    print("Generated child nodes for ", initial_node)
+    sorted_children = []
+    for token in range(0, len(initial_node)):
+        child_node = flip_adjacent_nodes(initial_node, token)
         # Check to see if the node exists already
-        __node_exists = __child_node in __open_list or __child_node in __closed_list
-        if not __node_exists:
+        node_exists = child_node in open_list or child_node in closed_list
+        if not node_exists:
             # Add the child node to the open list and pop into search list stack
-            print("\t\tDiscovered", __child_node)
-            __open_list.append(__child_node)
-            __search_list.append(__child_node)
+            print("\t\tDiscovered", child_node)
+            depth_list[child_node] = current_depth
+            sorted_children.append(child_node)
+        elif child_node in open_list:
+            # Node exists, update depth if new child node is lower
+            if depth_list[child_node] > current_depth:
+                print(child_node, "*** updated depth from", depth_list[child_node, "to", current_depth])
+                depth_list[child_node] = current_depth
+    # Tie breaker by sorting the children
+    # Reverse order sorting because we are using a stack, the last element should be the next node
+    sorted_children.sort(reverse=True)
+    open_list.extend(sorted_children)
 
 
-
-def visit_next_node(__open_list, __closed_list, __search_list):
-    __visited_node = __search_list.pop()
-    __open_list.remove(__visited_node)
-    __closed_list.append(__visited_node)
-    print("Visit node", __visited_node)
+def visit_next_node(open_list, closed_list, depth_list, search_path, current_depth, max_depth):
+    visited_node = open_list.pop()
+    updated_depth = depth_list.pop(visited_node)
+    search_path.append(visited_node)
+    # If the child node is not at max depth, then add to closed_list (meaning the node was expanded already)
+    if not current_depth == max_depth:
+        closed_list.append(visited_node)
+    print("Visit node", visited_node, "| Depth: ", updated_depth)
 
     # Goal state
-    if __visited_node.find("1") == -1:
-        print("Solution found")
-        print("Search path (" + str(len(__closed_list)) + ")", __closed_list)
-        __search_list = []
-        return 1
-    return __visited_node
+    if visited_node.find("1") == -1:
+        closed_list.append(visited_node)
+        open_list.clear()   # clear for the stopping condition when open_list length is 0
+        return [visited_node, -1]
+
+    return [visited_node, updated_depth]
 
 
-closed_list = []
-open_list = []
-search_list = []
-solution_path = []
+def main():
+    depth_list = dict()
+    closed_list = []
+    open_list = []
+    search_path = []
+    solution_path = []
 
-# Initial board set up
-n = 2
-initial_board = "0110"
+    # Initial board set up
+    n = 2
+    initial_board = "0110"
 
-# n = 3
-# initial_board = "011100010"
+    n = 3
+    initial_board = "111001011"
 
-max_depth = 4
-current_depth = 1
-open_list.append(initial_board)
-search_list.append(initial_board)
-solved = False
+    current_depth = 1
+    max_depth = 20
+    open_list.append(initial_board)
+    search_path.append(initial_board)
+    depth_list[initial_board] = 1
+    solved = False
 
-# TODO Position conversion given an index
-# TODO Max depth
-# TODO File output
-# TODO Tie breaking
-while not len(search_list) == 0 and not solved:
-    visited_node = visit_next_node(open_list, closed_list, search_list)
-    if visited_node == 1:
-        solved = True
-        break
-    create_child_nodes(visited_node, open_list, closed_list, search_list)
-    print("Closed list (" + str(len(closed_list)) + ")", closed_list)
-    print("Open list (" + str(len(open_list)) + ")", open_list)
-    print("Search list (" + str(len(search_list)) + ")", search_list)
-    print()
-    # current_depth += 1
+    # TODO File output
+    # TODO Tie breaking
+    while not len(open_list) == 0 and not solved:
+        visited_node = visit_next_node(open_list, closed_list, depth_list, search_path, current_depth, max_depth)
+        current_depth = visited_node[1]
+        if visited_node[1] == -1:
+            solved = True
+            break
 
-if len(search_list) == 0 and not solved:
-    print("No solution")
+        if current_depth < max_depth:
+            # Update the current_depth since we have made child_nodes
+            current_depth += 1
+            create_child_nodes(visited_node[0], open_list, closed_list, depth_list, current_depth)
+            print("Updated depth:", current_depth)
+            print("Closed list (" + str(len(closed_list)) + ")", closed_list)
+            print("Open list (" + str(len(open_list)) + ")", open_list)
+            print("Depth list (" + str(len(depth_list)) + ")", depth_list)
+            print("Search path (" + str(len(search_path)) + ")", search_path)
+            print()
+        else:
+            print("\tMAX DEPTH\n")
+        # current_depth += 1
+
+    if len(open_list) == 0:
+        if solved:
+            print("Solution found")
+            print("Search path (" + str(len(search_path)) + ")", search_path)
+            print("Solution path(" + str((len(solution_path))) + ")", solution_path)
+        else:
+            print("No solution")
+
+
+if __name__ == '__main__':
+    main()
 
