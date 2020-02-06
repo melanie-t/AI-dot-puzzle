@@ -1,4 +1,6 @@
 import math
+
+
 def flip_token(token):
     if token == '0':
         return '1'
@@ -79,34 +81,43 @@ def flip_adjacent_nodes(board, index):
     return ''.join(new_board)
 
 
-def create_child_nodes(__initial_node, __open_list, __closed_list, __search_list):
+def create_child_nodes(initial_node, open_list, closed_list, search_list, depth_list, current_depth):
     # Creates children of the initial
-    print("Generated child nodes for ", __initial_node)
-    for token in range(0, len(__initial_node)):
-        __child_node = flip_adjacent_nodes(__initial_node, token)
+    print("Generated child nodes for ", initial_node)
+    for token in range(0, len(initial_node)):
+        child_node = flip_adjacent_nodes(initial_node, token)
         # Check to see if the node exists already
-        __node_exists = __child_node in __open_list or __child_node in __closed_list
-        if not __node_exists:
+        node_exists = child_node in open_list or child_node in closed_list
+        if not node_exists:
             # Add the child node to the open list and pop into search list stack
-            print("\t\tDiscovered", __child_node)
-            __open_list.append(__child_node)
-            __search_list.append(__child_node)
+            print("\t\tDiscovered", child_node)
+            depth_list[child_node] = current_depth
+            open_list.append(child_node)
+            search_list.append(child_node)
+        elif child_node in open_list:
+            # Node exists, update depth if new child node is lower
+            if depth_list[child_node] > current_depth:
+                print(child_node, "*** updated depth from", depth_list[child_node, "to", current_depth])
+                depth_list[child_node] = current_depth
 
 
-
-def visit_next_node(__open_list, __closed_list, __search_list):
-    __visited_node = __search_list.pop()
-    __open_list.remove(__visited_node)
-    __closed_list.append(__visited_node)
-    print("Visit node", __visited_node)
+def visit_next_node(open_list, closed_list, search_list, depth_list, current_depth, max_depth):
+    visited_node = search_list.pop()
+    open_list.remove(visited_node)
+    updated_depth = depth_list.pop(visited_node)
+    # If the child node is not at max depth, then add to closed_list (meaning the node was expanded already)
+    if not current_depth == max_depth:
+        closed_list.append(visited_node)
+    print("Visit node", visited_node, "| Depth: ", updated_depth)
 
     # Goal state
-    if __visited_node.find("1") == -1:
+    if visited_node.find("1") == -1:
         print("Solution found")
-        print("Search path (" + str(len(__closed_list)) + ")", __closed_list)
+        print("Search path (" + str(len(closed_list)) + ")", closed_list)
         __search_list = []
-        return 1
-    return __visited_node
+        return [visited_node, -1]
+
+    return [visited_node, updated_depth]
 
 
 def main():
