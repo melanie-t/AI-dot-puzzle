@@ -145,4 +145,54 @@ while not len(search_list) == 0 and not solved:
 
 if len(search_list) == 0 and not solved:
     print("No solution")
+def main():
+    depth_list = dict()
+    closed_list = []
+    open_list = []
+    search_list = []
+    solution_path = []
+
+    # Initial board set up
+    n = 2
+    initial_board = "0110"
+
+    n = 3
+    initial_board = "011100010"
+
+    current_depth = 1
+    max_depth = 5
+    open_list.append(initial_board)
+    search_list.append(initial_board)
+    depth_list[initial_board] = 1
+    solved = False
+
+    # TODO File output
+    # TODO Tie breaking
+    while not len(search_list) == 0 and not solved:
+        visited_node = visit_next_node(open_list, closed_list, search_list, depth_list, current_depth, max_depth)
+        current_depth = visited_node[1]
+        if visited_node[1] == -1:
+            solved = True
+            break
+
+        if current_depth < max_depth:
+            # Update the current_depth since we have made child_nodes
+            current_depth += 1
+            create_child_nodes(visited_node[0], open_list, closed_list, search_list, depth_list, current_depth)
+            print("Updated depth:", current_depth)
+            print("Closed list (" + str(len(closed_list)) + ")", closed_list)
+            print("Open list (" + str(len(open_list)) + ")", open_list)
+            print("Search list (" + str(len(search_list)) + ")", search_list)
+            print("Depth list (" + str(len(depth_list)) + ")", depth_list)
+            print()
+        else:
+            print("\tMAX DEPTH\n")
+        # current_depth += 1
+
+    if len(search_list) == 0 and not solved:
+        print("No solution")
+
+
+if __name__ == '__main__':
+    main()
 
