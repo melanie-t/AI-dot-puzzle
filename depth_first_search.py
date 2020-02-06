@@ -1,5 +1,10 @@
 import math
 
+# Visit node
+# Generate children nodes
+# Sort the children nodes and add to the open list
+# Check if they are the goal state
+
 
 def flip_token(token):
     if token == '0':
@@ -81,9 +86,10 @@ def flip_adjacent_nodes(board, index):
     return ''.join(new_board)
 
 
-def create_child_nodes(initial_node, open_list, closed_list, search_list, depth_list, current_depth):
+def create_child_nodes(initial_node, open_list, closed_list, depth_list, current_depth):
     # Creates children of the initial
     print("Generated child nodes for ", initial_node)
+    sorted_children = []
     for token in range(0, len(initial_node)):
         child_node = flip_adjacent_nodes(initial_node, token)
         # Check to see if the node exists already
@@ -101,10 +107,10 @@ def create_child_nodes(initial_node, open_list, closed_list, search_list, depth_
                 depth_list[child_node] = current_depth
 
 
-def visit_next_node(open_list, closed_list, search_list, depth_list, current_depth, max_depth):
-    visited_node = search_list.pop()
-    open_list.remove(visited_node)
+def visit_next_node(open_list, closed_list, depth_list, search_path, current_depth, max_depth):
+    visited_node = open_list.pop()
     updated_depth = depth_list.pop(visited_node)
+    search_path.append(visited_node)
     # If the child node is not at max depth, then add to closed_list (meaning the node was expanded already)
     if not current_depth == max_depth:
         closed_list.append(visited_node)
@@ -112,9 +118,8 @@ def visit_next_node(open_list, closed_list, search_list, depth_list, current_dep
 
     # Goal state
     if visited_node.find("1") == -1:
-        print("Solution found")
-        print("Search path (" + str(len(closed_list)) + ")", closed_list)
-        __search_list = []
+        closed_list.append(visited_node)
+        open_list.clear()   # clear for the stopping condition when open_list length is 0
         return [visited_node, -1]
 
     return [visited_node, updated_depth]
@@ -124,7 +129,7 @@ def main():
     depth_list = dict()
     closed_list = []
     open_list = []
-    search_list = []
+    search_path = []
     solution_path = []
 
     # Initial board set up
@@ -137,14 +142,14 @@ def main():
     current_depth = 1
     max_depth = 5
     open_list.append(initial_board)
-    search_list.append(initial_board)
+    search_path.append(initial_board)
     depth_list[initial_board] = 1
     solved = False
 
     # TODO File output
     # TODO Tie breaking
-    while not len(search_list) == 0 and not solved:
-        visited_node = visit_next_node(open_list, closed_list, search_list, depth_list, current_depth, max_depth)
+    while not len(open_list) == 0 and not solved:
+        visited_node = visit_next_node(open_list, closed_list, depth_list, search_path, current_depth, max_depth)
         current_depth = visited_node[1]
         if visited_node[1] == -1:
             solved = True
@@ -153,19 +158,24 @@ def main():
         if current_depth < max_depth:
             # Update the current_depth since we have made child_nodes
             current_depth += 1
-            create_child_nodes(visited_node[0], open_list, closed_list, search_list, depth_list, current_depth)
+            create_child_nodes(visited_node[0], open_list, closed_list, depth_list, current_depth)
             print("Updated depth:", current_depth)
             print("Closed list (" + str(len(closed_list)) + ")", closed_list)
             print("Open list (" + str(len(open_list)) + ")", open_list)
-            print("Search list (" + str(len(search_list)) + ")", search_list)
             print("Depth list (" + str(len(depth_list)) + ")", depth_list)
+            print("Search path (" + str(len(search_path)) + ")", search_path)
             print()
         else:
             print("\tMAX DEPTH\n")
         # current_depth += 1
 
-    if len(search_list) == 0 and not solved:
-        print("No solution")
+    if len(open_list) == 0:
+        if solved:
+            print("Solution found")
+            print("Search path (" + str(len(search_path)) + ")", search_path)
+            print("Solution path(" + str((len(solution_path))) + ")", solution_path)
+        else:
+            print("No solution")
 
 
 if __name__ == '__main__':
