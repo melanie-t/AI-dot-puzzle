@@ -98,13 +98,16 @@ def create_child_nodes(initial_node, open_list, closed_list, depth_list, current
             # Add the child node to the open list and pop into search list stack
             print("\t\tDiscovered", child_node)
             depth_list[child_node] = current_depth
-            open_list.append(child_node)
-            search_list.append(child_node)
+            sorted_children.append(child_node)
         elif child_node in open_list:
             # Node exists, update depth if new child node is lower
             if depth_list[child_node] > current_depth:
                 print(child_node, "*** updated depth from", depth_list[child_node, "to", current_depth])
                 depth_list[child_node] = current_depth
+    # Tie breaker by sorting the children
+    # Reverse order sorting because we are using a stack, the last element should be the next node
+    sorted_children.sort(reverse=True)
+    open_list.extend(sorted_children)
 
 
 def visit_next_node(open_list, closed_list, depth_list, search_path, current_depth, max_depth):
@@ -137,10 +140,10 @@ def main():
     initial_board = "0110"
 
     n = 3
-    initial_board = "011100010"
+    initial_board = "111001011"
 
     current_depth = 1
-    max_depth = 5
+    max_depth = 20
     open_list.append(initial_board)
     search_path.append(initial_board)
     depth_list[initial_board] = 1
