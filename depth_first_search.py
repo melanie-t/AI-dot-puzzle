@@ -5,6 +5,14 @@ import math
 # TODO Read file and input into variables
 
 
+def position(index, n):
+    # A starts at 65
+    letter = chr(65 + int(index/n))
+    n_pos = int(index % n + 1)
+    current_position = letter + str(n_pos)
+    return current_position
+
+
 def flip_token(token):
     if token == '0':
         return '1'
