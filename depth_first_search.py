@@ -147,16 +147,17 @@ def create_solution_path(initial_puzzle, solution_node, moves_list):
     return solution_path
 
 
-def search(size_n, max_d, puzzle):
+def search(size_n, max_d, puzzle, puzzle_name):
     moves_list = dict()
-    solution_path = dict()
     closed_list = []
     open_list = []
     search_path = []
 
-    i = 1
-    f_solution = open("./Solutions/dfs_solution"+str(i)+".txt", "w")
-    f_search = open("./Search/dfs_search"+str(i)+".txt", "w")
+    solution_output_path = "./output/" + str(puzzle_name) + "_dfs_solution.txt"
+    search_output_path = "./output/" + str(puzzle_name) + "_dfs_search.txt"
+
+    f_solution = open(solution_output_path, "w")
+    f_search = open(search_output_path, "w")
 
     current_depth = 1
     open_list.append(puzzle)
@@ -191,13 +192,10 @@ def search(size_n, max_d, puzzle):
         if solved:
             solution_path = create_solution_path(puzzle, solution_node, moves_list)
             for node in search_path:
-                print(node)
                 f_search.write("0 0 0 "+node+"\n")
 
             for node in solution_path:
                 f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
-                print(node[0], node[1])
-
 
             print("Solution found")
             print("Search path (" + str(len(search_path)) + ")", search_path)
@@ -205,6 +203,7 @@ def search(size_n, max_d, puzzle):
 
         else:
             f_solution.write("No solution")
+            f_search.write("No solution")
             print("No solution")
 
     f_search.close()
