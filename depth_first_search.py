@@ -143,7 +143,7 @@ def create_solution_path(initial_puzzle, solution_node, moves_list):
         solution_path.appendleft([current_position, current_move])
         current_position = moves_list[current_move][1]
         current_move = moves_list[current_move][2]
-    solution_path.appendleft([current_position, initial_puzzle])
+    solution_path.appendleft([moves_list[initial_puzzle][2],initial_puzzle])
     return solution_path
 
 
@@ -155,7 +155,8 @@ def search(size_n, max_d, puzzle):
     search_path = []
 
     i = 1
-    f = open("./Solutions/Solution"+str(i)+".txt", "w")
+    f_solution = open("./Solutions/dfs_solution"+str(i)+".txt", "w")
+    f_search = open("./Search/dfs_search"+str(i)+".txt", "w")
 
     current_depth = 1
     open_list.append(puzzle)
@@ -191,9 +192,10 @@ def search(size_n, max_d, puzzle):
             solution_path = create_solution_path(puzzle, solution_node, moves_list)
             for node in search_path:
                 print(node)
+                f_search.write("0 0 0 "+node+"\n")
 
             for node in solution_path:
-                f.write(node[0] + " " + node[1] + "\n")
+                f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
                 print(node[0], node[1])
 
 
@@ -202,5 +204,8 @@ def search(size_n, max_d, puzzle):
             print("Solution path (" + str((len(solution_path))) + ")", solution_path)
 
         else:
-            f.write("No solution")
+            f_solution.write("No solution")
             print("No solution")
+
+    f_search.close()
+    f_solution.close()
