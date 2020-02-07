@@ -2,6 +2,7 @@ import depth_first_search
 import read_puzzle_file
 
 
+# Initialize variables
 n = 3
 max_d = 100
 puzzle = "111001011"

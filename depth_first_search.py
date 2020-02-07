@@ -140,7 +140,6 @@ def search(size_n, max_d, initial_board):
     open_list = []
     search_path = []
     solution_path = dict()
-    child_list = []
 
     current_depth = 1
     open_list.append(initial_board)
