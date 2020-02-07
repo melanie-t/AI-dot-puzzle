@@ -1,6 +1,3 @@
-# TODO File output
-# TODO Solution path
-# TODO Read file and input into variables
 from collections import deque
 
 
