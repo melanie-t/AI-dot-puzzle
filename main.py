@@ -2,12 +2,10 @@ import depth_first_search
 import read_puzzle_file
 
 # TODO @Patrick, remove these comments below when you're done with input file
-# n = 3
-# max_d = 100
-# puzzle = "111001011"
-# puzzle_name = "puzzle_1"
-
-puzzles = [[3, 100, 111001011]]
+# Replace puzzles with input puzzles from file
+# Be careful with the initial board, it must be a string (or else 0001 becomes 1 as a number)
+# puzzles = array of [n, max_d, initial_puzzle]
+puzzles = [[3, 100, "111001011"], [2, 5, "0110"]]
 
 # Initialize variables
 for i in range(0, len(puzzles)):
