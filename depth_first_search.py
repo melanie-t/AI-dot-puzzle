@@ -154,6 +154,9 @@ def search(size_n, max_d, puzzle):
     open_list = []
     search_path = []
 
+    i = 1
+    f = open("./Solutions/Solution"+str(i)+".txt", "w")
+
     current_depth = 1
     open_list.append(puzzle)
     search_path.append(puzzle)
@@ -186,17 +189,18 @@ def search(size_n, max_d, puzzle):
     if len(open_list) == 0:
         if solved:
             solution_path = create_solution_path(puzzle, solution_node, moves_list)
-            # TODO GUENOLE your code should go here. Instead of printing, you should be outputting the results
             for node in search_path:
                 print(node)
 
             for node in solution_path:
+                f.write(node[0] + " " + node[1] + "\n")
                 print(node[0], node[1])
+
 
             print("Solution found")
             print("Search path (" + str(len(search_path)) + ")", search_path)
             print("Solution path (" + str((len(solution_path))) + ")", solution_path)
 
         else:
+            f.write("No solution")
             print("No solution")
-            # TODO GUENOLE when there is no solution, we output in both files that there is no solution
