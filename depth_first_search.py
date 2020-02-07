@@ -93,7 +93,7 @@ def flip_adjacent_nodes(board, index):
     return ''.join(new_board)
 
 
-def create_child_nodes(initial_node, open_list, closed_list, depth_list, current_depth):
+def create_child_nodes(initial_node, open_list, closed_list, moves_dict, current_depth):
     # Creates children of the initial
     print("Generated child nodes for ", initial_node)
     sorted_children = []
@@ -104,22 +104,23 @@ def create_child_nodes(initial_node, open_list, closed_list, depth_list, current
         if not node_exists:
             # Add the child node to the open list and pop into search list stack
             print("\t\tDiscovered", child_node)
-            depth_list[child_node] = current_depth
+            moves_dict[child_node] = [current_depth, position(token, math.sqrt(len(initial_node)))]
             sorted_children.append(child_node)
         elif child_node in open_list:
+            node_depth = (moves_dict[child_node][0])
             # Node exists, update depth if new child node is lower
-            if depth_list[child_node] > current_depth:
-                print(child_node, "*** updated depth from", depth_list[child_node, "to", current_depth])
-                depth_list[child_node] = current_depth
+            if node_depth > current_depth:
+                print(child_node, "*** updated depth from", moves_dict[child_node, "to", current_depth])
+                moves_dict[child_node] = [current_depth, str(position(int(token)))]
     # Tie breaker by sorting the children
     # Reverse order sorting because we are using a stack, the last element should be the next node
     sorted_children.sort(reverse=True)
     open_list.extend(sorted_children)
 
 
-def visit_next_node(open_list, closed_list, depth_list, search_path, current_depth, max_depth):
+def visit_next_node(open_list, closed_list, moves_dict, search_path, current_depth, max_depth):
     visited_node = open_list.pop()
-    updated_depth = depth_list.pop(visited_node)
+    updated_depth = moves_dict.pop(visited_node)
     search_path.append(visited_node)
     # If the child node is not at max depth, then add to closed_list (meaning the node was expanded already)
     if not current_depth == max_depth:
@@ -130,13 +131,13 @@ def visit_next_node(open_list, closed_list, depth_list, search_path, current_dep
     if visited_node.find("1") == -1:
         closed_list.append(visited_node)
         open_list.clear()   # clear for the stopping condition when open_list length is 0
-        return [visited_node, -1]
+        return [visited_node, [-1, '0']]
 
     return [visited_node, updated_depth]
 
 
 def main():
-    depth_list = dict()
+    moves_dict = dict()
     closed_list = []
     open_list = []
     search_path = []
@@ -147,33 +148,33 @@ def main():
     initial_board = "0110"
 
     n = 3
+    max_d = 20
     initial_board = "111001011"
 
     current_depth = 1
-    max_depth = 20
     open_list.append(initial_board)
     search_path.append(initial_board)
-    depth_list[initial_board] = 1
+    moves_dict[initial_board] = [1, 0]
     solved = False
 
     while not len(open_list) == 0 and not solved:
         # Visit node
-        visited_node = visit_next_node(open_list, closed_list, depth_list, search_path, current_depth, max_depth)
-        current_depth = visited_node[1]
+        visited_node = visit_next_node(open_list, closed_list, moves_dict, search_path, current_depth, max_d)
+        current_depth = (visited_node[1])[0]
         # Check if the goal state is returned
-        if visited_node[1] == -1:
+        if current_depth == -1:
             solved = True
             break
 
-        if current_depth < max_depth:
+        if current_depth < max_d:
             # Update the current_depth since we have generated child_nodes
             current_depth += 1
             # Generate children nodes, sort the children nodes and add to the open list
-            create_child_nodes(visited_node[0], open_list, closed_list, depth_list, current_depth)
+            create_child_nodes(visited_node[0], open_list, closed_list, moves_dict, current_depth)
             print("Updated depth:", current_depth)
             print("Closed list (" + str(len(closed_list)) + ")", closed_list)
             print("Open list (" + str(len(open_list)) + ")", open_list)
-            print("Depth list (" + str(len(depth_list)) + ")", depth_list)
+            print("Moves list (" + str(len(moves_dict)) + ")", moves_dict)
             print("Search path (" + str(len(search_path)) + ")", search_path)
             print()
         else:
