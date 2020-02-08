@@ -188,8 +188,12 @@ def search(size_n, max_d, puzzle, puzzle_name, print_steps_enabled):
         if solved:
             solution_path = create_solution_path(puzzle, solution_node, moves_list)
             print(puzzle_name, ": Solution found")
-            print("Search path (" + str(len(search_path)) + ")", search_path)
-            print("Solution path (" + str((len(solution_path))) + ")", solution_path)
+            if print_steps_enabled:
+                print("Search path (" + str(len(search_path)) + ")", search_path)
+                print("Solution path (" + str((len(solution_path))) + ")", solution_path)
+            else:
+                print("Search path (" + str(len(search_path)) + ") saved at", search_output_path)
+                print("Solution path (" + str((len(solution_path))) + ") saved at", solution_output_path)
 
         else:
             print(puzzle_name, ": No solution")
