@@ -90,7 +90,7 @@ def flip_adjacent_nodes(board, index, size_n):
 
 def create_child_nodes(initial_node, open_list, closed_list, moves_list, current_depth, size_n):
     # Creates children of the initial
-    print("Generated child nodes for ", initial_node)
+    # print("Generated child nodes for ", initial_node)
     sorted_children = []
     for token in range(0, len(initial_node)):
         child_node = flip_adjacent_nodes(initial_node, token, size_n)
@@ -98,15 +98,13 @@ def create_child_nodes(initial_node, open_list, closed_list, moves_list, current
         new_node = child_node not in moves_list
         if new_node:
             # Add the child node to the open list and pop into search list stack
-            print("\t\tDiscovered", child_node)
+            # print("\t\tDiscovered", child_node)
             moves_list[child_node] = [current_depth, position(token, size_n), initial_node]
             sorted_children.append(child_node)
         else:
             # Node exists, update depth if new child node is lower
             node_depth = (moves_list[child_node][0])
-            print("Existing node", child_node, "with depth", node_depth)
             if node_depth > current_depth:
-                print("Update existing node", child_node, "with new depth", current_depth)
                 moves_list[child_node] = [current_depth, position(token, size_n), initial_node]
     # Tie breaker by sorting the children
     # Reverse order sorting because we are using a stack, the last element should be the next node
@@ -121,7 +119,7 @@ def visit_next_node(solution_node, open_list, closed_list, moves_list, search_pa
     # If the child node is not at max depth, then add to closed_list (meaning the node was expanded already)
     if not current_depth == max_depth:
         closed_list.append(visited_node)
-    print("Visit node", visited_node, "| Move Info: ", node_info)
+    # print("Visit node", visited_node, "| Move Info: ", node_info)
 
     # Goal state
     if visited_node == solution_node:
@@ -177,13 +175,13 @@ def search(size_n, max_d, puzzle, puzzle_name):
             current_depth += 1
             # Generate children nodes, sort the children nodes and add to the open list
             create_child_nodes(visited_node[0], open_list, closed_list, moves_list, current_depth, size_n)
-            print("Closed list (" + str(len(closed_list)) + ")", closed_list)
-            print("Open list (" + str(len(open_list)) + ")", open_list)
-            print("Moves list (" + str(len(moves_list)) + ")", moves_list)
-            print("Search path (" + str(len(search_path)) + ")", search_path)
-            print()
-        else:
-            print("\tMAX DEPTH\n")
+        #     print("Closed list (" + str(len(closed_list)) + ")", closed_list)
+        #     print("Open list (" + str(len(open_list)) + ")", open_list)
+        #     print("Moves list (" + str(len(moves_list)) + ")", moves_list)
+        #     print("Search path (" + str(len(search_path)) + ")", search_path)
+        #     print()
+        # else:
+        #     print("\tMAX DEPTH\n")
 
     if len(open_list) == 0:
         if solved:
@@ -194,14 +192,14 @@ def search(size_n, max_d, puzzle, puzzle_name):
             for node in solution_path:
                 f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
 
-            print("Solution found")
+            print(puzzle_name, ": Solution found")
             print("Search path (" + str(len(search_path)) + ")", search_path)
             print("Solution path (" + str((len(solution_path))) + ")", solution_path)
 
         else:
             f_solution.write("No solution")
             f_search.write("No solution")
-            print("No solution")
+            print(puzzle_name,": No solution")
 
     f_search.close()
     f_solution.close()
