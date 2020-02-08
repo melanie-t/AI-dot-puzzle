@@ -90,7 +90,6 @@ def flip_adjacent_nodes(board, index, size_n):
 
 def create_child_nodes(initial_node, open_list, closed_list, moves_list, current_depth, size_n):
     # Creates children of the initial
-    # print("Generated child nodes for ", initial_node)
     sorted_children = []
     for token in range(0, len(initial_node)):
         child_node = flip_adjacent_nodes(initial_node, token, size_n)
@@ -98,7 +97,6 @@ def create_child_nodes(initial_node, open_list, closed_list, moves_list, current
         new_node = child_node not in moves_list
         if new_node:
             # Add the child node to the open list and pop into search list stack
-            # print("\t\tDiscovered", child_node)
             moves_list[child_node] = [current_depth, position(token, size_n), initial_node]
             sorted_children.append(child_node)
         else:
@@ -119,7 +117,6 @@ def visit_next_node(solution_node, open_list, closed_list, moves_list, search_pa
     # If the child node is not at max depth, then add to closed_list (meaning the node was expanded already)
     if not current_depth == max_depth:
         closed_list.append(visited_node)
-    # print("Visit node", visited_node, "| Move Info: ", node_info)
 
     # Goal state
     if visited_node == solution_node:
@@ -142,17 +139,11 @@ def create_solution_path(initial_puzzle, solution_node, moves_list):
     return solution_path
 
 
-def search(size_n, max_d, puzzle, puzzle_name):
+def search(size_n, max_d, puzzle, puzzle_name, print_steps_enabled):
     moves_list = dict()
     closed_list = []
     open_list = []
     search_path = []
-
-    solution_output_path = "./output/" + str(puzzle_name) + "_dfs_solution.txt"
-    search_output_path = "./output/" + str(puzzle_name) + "_dfs_search.txt"
-
-    f_solution = open(solution_output_path, "w")
-    f_search = open(search_output_path, "w")
 
     current_depth = 1
     open_list.append(puzzle)
@@ -165,6 +156,13 @@ def search(size_n, max_d, puzzle, puzzle_name):
         # Visit node
         visited_node = visit_next_node(solution_node, open_list, closed_list, moves_list, search_path, current_depth, max_d)
         current_depth = (visited_node[1])[0]
+
+        if print_steps_enabled:
+            current_board_position = visited_node[0]
+            node_info = visited_node[1]
+            print("Visit node", current_board_position, "| Move:", node_info[1], "| Depth:", node_info[0])
+
+
         # Check if the goal state is returned
         if current_depth == -1:
             solved = True
@@ -175,31 +173,53 @@ def search(size_n, max_d, puzzle, puzzle_name):
             current_depth += 1
             # Generate children nodes, sort the children nodes and add to the open list
             create_child_nodes(visited_node[0], open_list, closed_list, moves_list, current_depth, size_n)
-        #     print("Closed list (" + str(len(closed_list)) + ")", closed_list)
-        #     print("Open list (" + str(len(open_list)) + ")", open_list)
-        #     print("Moves list (" + str(len(moves_list)) + ")", moves_list)
-        #     print("Search path (" + str(len(search_path)) + ")", search_path)
-        #     print()
-        # else:
-        #     print("\tMAX DEPTH\n")
+            if print_steps_enabled:
+                print("\tGenerating children for node", visited_node[0], "\n")
+                print("Closed list (" + str(len(closed_list)) + ")", closed_list)
+                print("Open list (" + str(len(open_list)) + ")", open_list)
+                print("Moves list (" + str(len(moves_list)) + ")", moves_list)
+                print("Search path (" + str(len(search_path)) + ")", search_path)
+                print()
 
+    # No solution or solution found
     if len(open_list) == 0:
+        solution_output_path = "./output/" + str(puzzle_name) + "_dfs_solution.txt"
+        search_output_path = "./output/" + str(puzzle_name) + "_dfs_search.txt"
         if solved:
             solution_path = create_solution_path(puzzle, solution_node, moves_list)
-            for node in search_path:
-                f_search.write("0 0 0 "+node+"\n")
-
-            for node in solution_path:
-                f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
-
             print(puzzle_name, ": Solution found")
             print("Search path (" + str(len(search_path)) + ")", search_path)
             print("Solution path (" + str((len(solution_path))) + ")", solution_path)
 
         else:
-            f_solution.write("No solution")
-            f_search.write("No solution")
-            print(puzzle_name,": No solution")
+            print(puzzle_name, ": No solution")
 
-    f_search.close()
-    f_solution.close()
+        # Save search path
+        try:
+            f_search = open(search_output_path, "w")
+            if solved:
+                for node in search_path:
+                    f_search.write("0 0 0 "+node+"\n")
+            else:
+                f_search.write("No solution")
+        except IOError:
+            print("Other unspecified IO error")
+        except:
+            print("Unknown error")
+        finally:
+            f_search.close()
+
+        # Save solution path
+        try:
+            f_solution = open(solution_output_path, "w")
+            if solved:
+                for node in solution_path:
+                    f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
+            else:
+                f_solution.write("No solution")
+        except IOError:
+            print("Other unspecified IO error")
+        except:
+            print("Unknown error")
+        finally:
+            f_solution.close()
