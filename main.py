@@ -35,10 +35,13 @@ def main():
         for i in range(0, len(puzzles)):
             n = int(puzzles[i][0])
             max_d = int(puzzles[i][1])
+            max_l = int(puzzles[i][2])
             puzzle = str(puzzles[i][3])
             puzzle_name = "puzzle_" + str(i + 1)
             print_steps_enabled = False  # False for faster run time
 
+            print()
+            print(n, max_d, max_l, puzzle)
             depth_first_search.search(n, max_d, puzzle, puzzle_name, print_steps_enabled)
 
 
