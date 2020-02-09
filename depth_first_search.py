@@ -1,4 +1,16 @@
 from collections import deque
+import os
+import errno
+
+
+# Source: https://stackoverflow.com/questions/273192/how-can-i-safely-create-a-nested-directory/14364249#14364249
+def make_sure_path_exists(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
+# End source
 
 
 def position(index, n):
@@ -183,6 +195,7 @@ def search(size_n, max_d, puzzle, puzzle_name, print_steps_enabled):
 
     # No solution or solution found
     if len(open_list) == 0:
+        make_sure_path_exists("./output")
         solution_output_path = "./output/" + str(puzzle_name) + "_dfs_solution.txt"
         search_output_path = "./output/" + str(puzzle_name) + "_dfs_search.txt"
         if solved:
