@@ -15,6 +15,43 @@ def make_sure_path_exists(path):
 # End source
 
 
+def save_output_files(solved, search_path, solution_path, puzzle_name):
+    make_sure_path_exists("./output")
+    solution_output_path = "./output/" + puzzle_name + "solution.txt"
+    search_output_path = "./output/" + puzzle_name + "search.txt"
+    # Save search path
+    try:
+        f_search = open(search_output_path, "w")
+        if solved:
+            for node in search_path:
+                f_search.write("0 0 0 " + node + "\n")
+        else:
+            f_search.write("No solution")
+        print("Saved search path at", search_output_path)
+    except IOError:
+        print("Other unspecified IO error")
+    except:
+        print("Unknown error")
+    else:
+        f_search.close()
+
+    # Save solution path
+    try:
+        f_solution = open(solution_output_path, "w")
+        if solved:
+            for node in solution_path:
+                f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
+        else:
+            f_solution.write("No solution")
+        print("Saved solution at", solution_output_path)
+    except IOError:
+        print("Other unspecified IO error")
+    except:
+        print("Unknown error")
+    else:
+        f_solution.close()
+
+
 def position(index, n):
     # A starts at 65
     letter = chr(65 + int(index/n))
