@@ -1,4 +1,4 @@
-import depth_first_search
+from src import depth_first_search
 
 
 def file_read(path, puzzles):
@@ -14,7 +14,7 @@ def file_read(path, puzzles):
         print("Other unspecified IO error")
     except:
         print("Unknown error")
-    finally:
+    else:
         game_file.close()
 
 
@@ -38,7 +38,7 @@ def main():
             max_l = int(puzzles[i][2])
             puzzle = str(puzzles[i][3])
             puzzle_name = "puzzle_" + str(i + 1)
-            print_steps_enabled = False  # False for faster run time
+            print_steps_enabled = True  # False for faster run time
 
             print()
             print(n, max_d, max_l, puzzle)
