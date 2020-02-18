@@ -38,7 +38,7 @@ def main():
             max_l = int(puzzles[i][2])
             puzzle = str(puzzles[i][3])
             puzzle_num = str(i + 1)
-            print_steps_enabled = True  # False for faster run time
+            print_steps_enabled = False  # False for faster run time
 
             print()
             print(n, max_d, max_l, puzzle)

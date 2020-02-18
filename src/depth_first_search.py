@@ -47,6 +47,7 @@ def search(size_n, max_d, puzzle, puzzle_num, print_steps_enabled):
 
     # No solution or solution found
     if len(open_list) == 0:
+        solution_path = []
         if solved:
             solution_path = create_solution_path(puzzle, solution_node, moves_list)
             print("Puzzle", puzzle_num, ": Solution found")

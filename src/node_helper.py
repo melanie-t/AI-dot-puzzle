@@ -16,7 +16,7 @@ def make_sure_path_exists(path):
 
 
 def save_output_files(solved, search_path, solution_path, puzzle_name):
-    make_sure_path_exists("./output")
+    make_sure_path_exists("./output/")
     solution_output_path = "./output/" + puzzle_name + "solution.txt"
     search_output_path = "./output/" + puzzle_name + "search.txt"
     # Save search path
