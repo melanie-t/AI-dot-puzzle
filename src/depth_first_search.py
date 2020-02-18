@@ -1,8 +1,8 @@
 from src.enum_node_info import NodeInfo
-from src.node_helper import visit_next_node, create_child_nodes, create_solution_path, make_sure_path_exists
+from src.node_helper import create_child_nodes, visit_next_node, create_solution_path, save_output_files
 
 
-def search(size_n, max_d, puzzle, puzzle_name, print_steps_enabled):
+def search(size_n, max_d, puzzle, puzzle_num, print_steps_enabled):
     moves_list = dict()
     closed_list = []
     open_list = []
@@ -47,48 +47,18 @@ def search(size_n, max_d, puzzle, puzzle_name, print_steps_enabled):
 
     # No solution or solution found
     if len(open_list) == 0:
-        make_sure_path_exists("./output")
-        solution_output_path = "./output/" + str(puzzle_name) + "_dfs_solution.txt"
-        search_output_path = "./output/" + str(puzzle_name) + "_dfs_search.txt"
         if solved:
             solution_path = create_solution_path(puzzle, solution_node, moves_list)
-            print(puzzle_name, ": Solution found")
+            print("Puzzle", puzzle_num, ": Solution found")
             if print_steps_enabled:
-                print("Search path (" + str(len(search_path)) + ") saved at", search_output_path, search_path)
-                print("Solution path (" + str((len(solution_path))) + ") saved at", solution_output_path, solution_path)
+                print("Search path (" + str(len(search_path)) + ")", search_path)
+                print("Solution path (" + str((len(solution_path))) + ")", solution_path)
             else:
-                print("Search path (" + str(len(search_path)) + ") saved at", search_output_path)
-                print("Solution path (" + str((len(solution_path))) + ") saved at", solution_output_path)
-
+                print("Search path (" + str(len(search_path)) + ")")
+                print("Solution path (" + str((len(solution_path))) + ")")
         else:
-            print(puzzle_name, ": No solution")
+            print(puzzle_num, ": No solution")
 
-        # Save search path
-        try:
-            f_search = open(search_output_path, "w")
-            if solved:
-                for node in search_path:
-                    f_search.write("0 0 0 "+node+"\n")
-            else:
-                f_search.write("No solution")
-        except IOError:
-            print("Other unspecified IO error")
-        except:
-            print("Unknown error")
-        finally:
-            f_search.close()
+        # Save output file
+        save_output_files(solved, search_path, solution_path, puzzle_num + "_dfs_")
 
-        # Save solution path
-        try:
-            f_solution = open(solution_output_path, "w")
-            if solved:
-                for node in solution_path:
-                    f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
-            else:
-                f_solution.write("No solution")
-        except IOError:
-            print("Other unspecified IO error")
-        except:
-            print("Unknown error")
-        finally:
-            f_solution.close()
