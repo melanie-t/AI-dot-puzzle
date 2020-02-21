@@ -2,60 +2,13 @@
 import os
 import errno
 from collections import deque
-from src.enum_node_info import NodeInfo
+from src.enum_node_info import NodeInfo, OutputValues
 
 
-# Source: https://stackoverflow.com/questions/273192/how-can-i-safely-create-a-nested-directory/14364249#14364249
-def make_sure_path_exists(path):
-    try:
-        os.makedirs(path)
-    except OSError as exception:
-        if exception.errno != errno.EEXIST:
-            raise
-# End source
-
-
-def save_output_files(solved, search_path, solution_path, puzzle_name):
-    make_sure_path_exists("./output/")
-    solution_output_path = "./output/" + puzzle_name + "solution.txt"
-    search_output_path = "./output/" + puzzle_name + "search.txt"
-    # Save search path
-    try:
-        f_search = open(search_output_path, "w")
-        if solved:
-            for node in search_path:
-                f_search.write("0 0 0 " + node + "\n")
-        else:
-            f_search.write("No solution")
-        print("Saved search path at", search_output_path)
-    except IOError:
-        print("Other unspecified IO error")
-    except:
-        print("Unknown error")
-    else:
-        f_search.close()
-
-    # Save solution path
-    try:
-        f_solution = open(solution_output_path, "w")
-        if solved:
-            for node in solution_path:
-                f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
-        else:
-            f_solution.write("No solution")
-        print("Saved solution at", solution_output_path)
-    except IOError:
-        print("Other unspecified IO error")
-    except:
-        print("Unknown error")
-    else:
-        f_solution.close()
-
-
-def position(index, n):
+def position(index, size_n):
     # A starts at 65
-    letter = chr(65 + int(index/n))
-    n_pos = int(index % n + 1)
+    letter = chr(65 + int(index / size_n))
+    n_pos = int(index % size_n + 1)
     current_position = letter + str(n_pos)
     return current_position
 
@@ -139,52 +92,88 @@ def flip_adjacent_nodes(board, index, size_n):
     return ''.join(new_board)
 
 
-def create_child_nodes(initial_node, open_list, moves_list, current_depth, size_n):
-    # Creates children of the initial
-    sorted_children = []
-    for token in range(0, len(initial_node)):
-        child_node = flip_adjacent_nodes(initial_node, token, size_n)
-        # Check to see if the node exists already
-        new_node = child_node not in moves_list
-        if new_node:
-            # Add the child node to the open list and pop into search list stack
-            moves_list[child_node] = [current_depth, position(token, size_n), initial_node]
-            sorted_children.append(child_node)
-        else:
-            # Node exists, update depth if new child node is lower
-            node_depth = (moves_list[child_node][NodeInfo.G_N.value])
-            if node_depth > current_depth:
-                moves_list[child_node] = [current_depth, position(token, size_n), initial_node]
-    # Tie breaker by sorting the children
-    # Reverse order sorting because we are using a stack, the last element should be the next node
-    sorted_children.sort(reverse=True)
-    open_list.extend(sorted_children)
-
-
-def visit_next_node(solution_node, open_list, closed_list, moves_list, search_path, current_depth, max_depth):
-    visited_node = open_list.pop()
-    node_info = moves_list[visited_node]
-    search_path.append(visited_node)
-    # If the child node is not at max depth, then add to closed_list (meaning the node was expanded already)
-    if not current_depth == max_depth:
-        closed_list.append(visited_node)
-
-    # Goal state
-    if visited_node == solution_node:
-        closed_list.append(visited_node)
-        open_list.clear()   # clear for the stopping condition when open_list length is 0
-        return [visited_node, [-1, '0']]
-
-    return [visited_node, node_info]
-
-
-def create_solution_path(initial_puzzle, solution_node, moves_list):
+def create_solution_path(initial_puzzle, solution_node, node_info_list):
     solution_path = deque()
     current_move = solution_node
-    current_position = moves_list[solution_node][NodeInfo.POSITION.value]
+    current_position = node_info_list[solution_node][NodeInfo.POSITION]
     while current_move != initial_puzzle:
         solution_path.appendleft([current_position, current_move])
-        current_position = moves_list[current_move][NodeInfo.POSITION.value]
-        current_move = moves_list[current_move][NodeInfo.PARENT_NODE.value]
-    solution_path.appendleft([moves_list[initial_puzzle][NodeInfo.PARENT_NODE.value], initial_puzzle])
+        current_position = node_info_list[current_move][NodeInfo.POSITION]
+        current_move = node_info_list[current_move][NodeInfo.PARENT_NODE]
+    solution_path.appendleft([node_info_list[initial_puzzle][NodeInfo.PARENT_NODE], initial_puzzle])
     return solution_path
+
+
+# Source: https://stackoverflow.com/questions/273192/how-can-i-safely-create-a-nested-directory/14364249#14364249
+def make_sure_path_exists(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
+# End source
+
+
+def create_output_files(solved, search_path, solution_path, puzzle_num, search_type):
+    make_sure_path_exists("./output/")
+    solution_output_path = "./output/" + str(puzzle_num) + "_" + search_type + "_solution.txt"
+    search_output_path = "./output/" + str(puzzle_num) + "_" + search_type + "_search.txt"
+    # Save search path
+    try:
+        f_search = open(search_output_path, "w")
+        if solved:
+            for node in search_path:
+                output_values = node[0]
+                node_value = node[1]
+                f_search.write(f"{output_values[OutputValues.F_N]} "
+                               f"{output_values[OutputValues.G_N]} "
+                               f"{output_values[OutputValues.H_N]} "
+                               f"{node_value} \n")
+        else:
+            f_search.write("No solution")
+        print("\tSaved search path at", search_output_path)
+    except IOError:
+        print("Other unspecified IO error")
+    except:
+        print("Unknown error")
+    else:
+        f_search.close()
+
+    # Save solution path
+    try:
+        f_solution = open(solution_output_path, "w")
+        if solved:
+            for node in solution_path:
+                f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
+        else:
+            f_solution.write("No solution")
+        print("\tSaved solution at", solution_output_path)
+    except IOError:
+        print("Other unspecified IO error")
+    except:
+        print("Unknown error")
+    else:
+        f_solution.close()
+
+
+def save_solution(search_path, node_info_list, puzzle, puzzle_num, search_type, solution_node, solved, print_steps_enabled):
+    solution_path = []
+    if solved:
+        solution_path = create_solution_path(puzzle, solution_node, node_info_list)
+        print(f"[ {search_type} ][ Solution Found ]")
+        if print_steps_enabled:
+            print(f"\tSearch path ({len(search_path)}) {search_path}"
+                  f"\n"
+                  f"\tSolution path ({len(solution_path)}) {solution_path}")
+        else:
+            print(f"\tSearch path ({len(search_path)})"
+                  f"\n"
+                  f"\tSolution path ({len(solution_path)})")
+    else:
+        print(f"[ {search_type} ][ No Solution ]")
+        print(f"\tSearch path ({len(search_path)})"
+              f"\n"
+              f"\tSolution path ({len(solution_path)})")
+
+    # Save output file
+    create_output_files(solved, search_path, solution_path, puzzle_num, search_type)
