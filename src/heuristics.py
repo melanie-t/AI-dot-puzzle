@@ -1,8 +1,10 @@
 
 
-def number_of_black_white(board):
-    num_black = board.count("1")
-    num_white = board.count("0")
+def calculate_heuristics(board):
+    return number_of_black_tokens(board)
 
-    total = num_white - num_black
-    return total
+
+def number_of_black_tokens(board):
+    num_black = board.count("1")
+    return int(num_black)
+
