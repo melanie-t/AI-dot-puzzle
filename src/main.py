@@ -1,5 +1,6 @@
 from src import depth_first_search, informed_search
 
+
 def file_read(path, puzzles):
     try:
         game_file = open(path)

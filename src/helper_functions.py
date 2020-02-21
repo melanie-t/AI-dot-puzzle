@@ -2,7 +2,7 @@
 import os
 import errno
 from collections import deque
-from src.enum_node_info import NodeInfo, OutputValues
+from src.enum_classes import NodeInfo, OutputValues
 
 
 def position(index, size_n):

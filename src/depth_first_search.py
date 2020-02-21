@@ -1,5 +1,5 @@
-from src.enum_node_info import NodeInfo, VisitedNode
-from src.node_helper import save_solution, flip_adjacent_nodes, position
+from src.enum_classes import NodeInfo, VisitedNode
+from src.helper_functions import save_solution, flip_adjacent_nodes, position
 
 
 def search(size_n, max_d, puzzle, puzzle_num, print_steps_enabled):

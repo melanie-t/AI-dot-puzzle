@@ -1,8 +1,8 @@
 from bisect import insort
 from collections import deque
-from src.heuristics import number_of_black_tokens, calculate_heuristics
-from src.node_helper import flip_adjacent_nodes, position, save_solution
-from src.enum_node_info import NodeInfo, OpenList, VisitedNode
+from src.heuristics import calculate_heuristics
+from src.helper_functions import flip_adjacent_nodes, position, save_solution
+from src.enum_classes import NodeInfo, OpenList, VisitedNode
 
 
 def search(size_n, max_l, puzzle, puzzle_num, print_steps_enabled, search_type):
