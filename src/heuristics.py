@@ -2,7 +2,7 @@
 
 def calculate_heuristics(board, index):
     return number_of_black_tokens(board)
-    # return adjacencies(board, index)
+    # return adjacency(board, index)
     # return isolated(board, index)
 
 
