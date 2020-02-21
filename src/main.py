@@ -1,5 +1,4 @@
-from src import depth_first_search
-
+from src import depth_first_search, informed_search
 
 def file_read(path, puzzles):
     try:
@@ -20,7 +19,7 @@ def file_read(path, puzzles):
 
 def main():
     print("================================================")
-    print("|| Welcome to A* Is Born's Depth First Search ||")
+    print("||  Welcome to A* Is Born's Search Algorithm  ||")
     print("================================================")
 
     puzzles = []  # Puzzles specified outside to keep all games separate
@@ -42,7 +41,17 @@ def main():
 
             print()
             print(n, max_d, max_l, puzzle)
-            depth_first_search.search(n, max_d, puzzle, puzzle_num, print_steps_enabled)
+
+            # Depth First Search
+            depth_first_search.search(size_n=n, max_d=max_d, puzzle=puzzle, puzzle_num=puzzle_num, print_steps_enabled=print_steps_enabled)
+
+            # Best First Search
+            informed_search.search(size_n=n, max_l=max_l, puzzle=puzzle, puzzle_num=puzzle_num,
+                                   print_steps_enabled=print_steps_enabled, search_type="bfs")
+
+            # A* Search
+            informed_search.search(size_n=n, max_l=max_l, puzzle=puzzle, puzzle_num=puzzle_num,
+                                   print_steps_enabled=print_steps_enabled, search_type="astar")
 
 
 if __name__ == '__main__':
