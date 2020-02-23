@@ -106,7 +106,7 @@ def create_child_nodes(initial_node, open_list, node_info_list, size_n, search_t
         g_n = 0
         if search_type == "astar":
             g_n = child_depth
-        h_n = calculate_heuristics(child_node, token)
+        h_n = calculate_heuristics(child_node, token, size_n)
         f_n = g_n + h_n
 
         # Check to see if the node exists already

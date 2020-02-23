@@ -44,7 +44,7 @@ def main():
             print(n, max_d, max_l, puzzle)
 
             # Depth First Search
-            depth_first_search.search(size_n=n, max_d=max_d, puzzle=puzzle, puzzle_num=puzzle_num, print_steps_enabled=print_steps_enabled)
+            #depth_first_search.search(size_n=n, max_d=max_d, puzzle=puzzle, puzzle_num=puzzle_num, print_steps_enabled=print_steps_enabled)
 
             # Best First Search
             informed_search.search(size_n=n, max_l=max_l, puzzle=puzzle, puzzle_num=puzzle_num,
