@@ -102,6 +102,7 @@ def create_child_nodes(initial_node, open_list, node_info_list, size_n, search_t
     child_depth = parent_depth + 1
 
     for token in range(0, len(initial_node)):
+        print(len(initial_node))
         child_node = flip_adjacent_nodes(initial_node, token, size_n)
         g_n = 0
         if search_type == "astar":

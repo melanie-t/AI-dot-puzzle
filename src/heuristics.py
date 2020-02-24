@@ -18,7 +18,7 @@ def adjacency(board, index):
 
 # TODO GUENOLE
 def isolated(board, index, size_n):
-    print(board[index]+" index :"+str(index))
+    #print(board[index]+" index :"+str(index))
     print(board)
     max_index = size_n - 1
     token_above = index - size_n
@@ -34,52 +34,54 @@ def isolated(board, index, size_n):
     if board[index] == '1':
         # Top left corner
         if index == 0 and board[token_right] == '0' and board[token_below] == '0':
-            print('Top left corner isolated')
+            #print('Top left corner isolated')
             end_value = int(value_corner)
 
         # Top right corner
         elif index == max_index and board[token_left] == '0' and board[token_below] == '0':
-            print('Top right corner isolated')
+            #print('Top right corner isolated')
             end_value = int(value_corner)
 
         # Bottom left corner
         elif index == size_n * max_index and board[token_right] == '0' and board[token_above] == '0':
-            print('Bottom left corner isolated')
+            #print('Bottom left corner isolated')
             end_value = int(value_center)
 
         # Bottom right Corner
         elif index == size_n * size_n - 1 and board[token_left] == '0' and board[token_above] == '0':
-            print('Bottom right corner isolated')
+            #print('Bottom right corner isolated')
             end_value = int(value_center)
 
         # Left edge
         elif index % size_n == 0 and board[token_right] == '0' and board[token_above] == '0' and board[token_below] == '0':
-            print('Left edge isolated')
+            #print('Left edge isolated')
             end_value = int(value_edge)
 
         # Right edge
         elif (index + 1) % size_n == 0 and board[token_left] == '0' and board[token_above] == '0' and board[token_below] == '0':
-            print('Index : '+str(index)+' right isolated')
+            #print('Index : '+str(index)+' right isolated')
             end_value = int(value_edge)
 
         # Top edge
         elif index < max_index and board[token_left] == '0' and board[token_below] == '0' and board[token_left] == '0':
-            print('Index : '+ str(index) +' isolated top')
+            #print('Index : '+ str(index) +' isolated top')
             end_value = int(value_edge)
 
         # Bottom edge
         elif int(index / size_n) == max_index and board[token_left] == '0' and board[token_above] == '0' and board[token_right] == '0':
-            print('Index : ' + str(index) + ' isolated bottom')
+            #print('Index : ' + str(index) + ' isolated bottom')
             end_value = int(value_edge)
 
         # All inner tokens
-        elif board[token_above] == '0' and board[token_left] == '0' and board[token_below] == '0' and board[token_right] == '0':
-            print('Index :'+str(index)+' isolated center')
-            end_value = int(value_center)
-
         else:
-            print('no isolated')
-            end_value = int(other)
+            if board[token_above] == '0' and board[token_left] == '0' and board[token_below] == '0' and board[token_right] == '0':
+            #print('Index :'+str(index)+' isolated center')
+                end_value = int(value_center)
+            else:
+                print('no isolated')
+                end_value = int(other)
+
+
 
     else:
         print('zéro 0')
