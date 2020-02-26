@@ -49,16 +49,16 @@ def get_neighbour_number(str_puzzle, char_index):
             num_black += 1
 
     ratio = num_white-num_black  # 1 more white, return -1
-#    print("black pieces: "+ str(num_black))
-#    print("white pieces: "+ str(num_white))
+    print("black pieces: "+ str(num_black))
+    print("white pieces: "+ str(num_white))
 
-#    print("blk-white ratio: "+str(ratio))
-  #  h_pt = ratio*h_weight
-    return ratio ##don't wnat a - heuristic
+#   shift_value is an offset that curves the heuristic from (-)# to (+)#
+    shift_value = 5
 
-#heuristic_pt = get_neighbour_number("0110111100010101", 4) #heuristic is 13.33
-heuristic_pt = get_neighbour_number("0110111100010101", 7) #heuristic is 0
-#heuristic_pt = get_neighbour_number("111101111", 4) #heuristic is 0
+    return ratio+shift_value ##don't wnat a - heuristic
+
+heuristic_pt = get_neighbour_number("0110111100010101", 5) #
+
 
 #0110->3
 #1111->7
