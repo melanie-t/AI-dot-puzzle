@@ -121,16 +121,13 @@ def create_output_files(solved, search_path, solution_path, puzzle_num, search_t
     # Save search path
     try:
         f_search = open(search_output_path, "w")
-        if solved:
-            for node in search_path:
-                output_values = node[0]
-                node_value = node[1]
-                f_search.write(f"{output_values[OutputValues.F_N]} "
-                               f"{output_values[OutputValues.G_N]} "
-                               f"{output_values[OutputValues.H_N]} "
-                               f"{node_value} \n")
-        else:
-            f_search.write("No solution")
+        for node in search_path:
+            output_values = node[0]
+            node_value = node[1]
+            f_search.write(f"{output_values[OutputValues.F_N]} "
+                           f"{output_values[OutputValues.G_N]} "
+                           f"{output_values[OutputValues.H_N]} "
+                           f"{node_value} \n")
         # print("\tSaved search path at", search_output_path)
     except IOError:
         print("Other unspecified IO error")
