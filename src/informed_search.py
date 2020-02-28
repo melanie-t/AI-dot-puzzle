@@ -22,7 +22,7 @@ def search(size_n, max_l, puzzle, puzzle_num, print_steps_enabled, search_type):
     node = puzzle
     g_n = 0
     h_n = 0
-    f_n = g_n + h_n
+    f_n = 0
     position = 0
     parent_node = 0
 
@@ -83,7 +83,7 @@ def visit_next_node(solution_node, open_list, node_info_list, search_path):
 
     g_n = node_info[NodeInfo.G_N]
     h_n = node_info[NodeInfo.H_N]
-    f_n = g_n + h_n
+    f_n = node_info[NodeInfo.F_N]
 
     search_path.append(([f_n, g_n, h_n], board_node))
 
