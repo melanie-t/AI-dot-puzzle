@@ -131,7 +131,7 @@ def create_output_files(solved, search_path, solution_path, puzzle_num, search_t
                                f"{node_value} \n")
         else:
             f_search.write("No solution")
-        print("\tSaved search path at", search_output_path)
+        # print("\tSaved search path at", search_output_path)
     except IOError:
         print("Other unspecified IO error")
     except:
@@ -147,7 +147,7 @@ def create_output_files(solved, search_path, solution_path, puzzle_num, search_t
                 f_solution.write(str(node[0]) + " " + str(node[1]) + "\n")
         else:
             f_solution.write("No solution")
-        print("\tSaved solution at", solution_output_path)
+        # print("\tSaved solution at", solution_output_path)
     except IOError:
         print("Other unspecified IO error")
     except:
