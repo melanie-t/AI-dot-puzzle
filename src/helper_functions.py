@@ -2,7 +2,7 @@
 import os
 import errno
 from collections import deque
-from src.enum_classes import NodeInfo, OutputValues
+from src.enum_classes import MovesList, OutputValues
 
 
 def position(index, size_n):
@@ -95,12 +95,12 @@ def flip_adjacent_nodes(board, index, size_n):
 def create_solution_path(initial_puzzle, solution_node, node_info_list):
     solution_path = deque()
     current_move = solution_node
-    current_position = node_info_list[solution_node][NodeInfo.POSITION]
+    current_position = node_info_list[solution_node][MovesList.POSITION]
     while current_move != initial_puzzle:
         solution_path.appendleft([current_position, current_move])
-        current_position = node_info_list[current_move][NodeInfo.POSITION]
-        current_move = node_info_list[current_move][NodeInfo.PARENT_NODE]
-    solution_path.appendleft([node_info_list[initial_puzzle][NodeInfo.PARENT_NODE], initial_puzzle])
+        current_position = node_info_list[current_move][MovesList.POSITION]
+        current_move = node_info_list[current_move][MovesList.PARENT_NODE]
+    solution_path.appendleft([node_info_list[initial_puzzle][MovesList.PARENT_NODE], initial_puzzle])
     return solution_path
 
 
@@ -153,19 +153,16 @@ def create_output_files(solved, search_path, solution_path, puzzle_num, search_t
         f_solution.close()
 
 
-def save_solution(search_path, node_info_list, puzzle, puzzle_num, search_type, solution_node, solved, print_steps_enabled):
+def save_solution(search_path, moves_list, puzzle, puzzle_num, search_type, solution_node, solved):
     solution_path = []
     if solved:
-        solution_path = create_solution_path(puzzle, solution_node, node_info_list)
+        solution_path = create_solution_path(puzzle, solution_node, moves_list)
         print(f"[ {search_type} ][ Solution Found ]")
-        if print_steps_enabled:
-            print(f"\tSearch path ({len(search_path)}) {search_path}"
-                  f"\n"
-                  f"\tSolution path ({len(solution_path)}) {solution_path}")
-        else:
-            print(f"\tSearch path ({len(search_path)})"
-                  f"\n"
-                  f"\tSolution path ({len(solution_path)})")
+
+        print(f"\tSearch path ({len(search_path)}) {search_path[:20]} ... "
+              f"\n"
+              f"\tSolution path ({len(solution_path)}) {solution_path}")
+
     else:
         print(f"[ {search_type} ][ No Solution ]")
         print(f"\tSearch path ({len(search_path)})"

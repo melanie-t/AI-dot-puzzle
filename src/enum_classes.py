@@ -10,7 +10,7 @@ class OpenList(IntEnum):
         return '%s' % self.value
 
 
-class NodeInfo(IntEnum):
+class MovesList(IntEnum):
     F_N = 0
     G_N = 1
     H_N = 2

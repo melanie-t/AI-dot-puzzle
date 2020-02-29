@@ -38,21 +38,22 @@ def main():
             max_l = int(puzzles[i][2])
             puzzle = str(puzzles[i][3])
             puzzle_num = str(i + 1)
-            print_steps_enabled = False  # False for faster run time
 
             print()
             print(n, max_d, max_l, puzzle)
 
             # Depth First Search
-            depth_first_search.search(size_n=n, max_d=max_d, puzzle=puzzle, puzzle_num=puzzle_num, print_steps_enabled=print_steps_enabled)
+            depth_first_search.search(size_n=n, max_d=max_d, puzzle=puzzle, puzzle_num=puzzle_num,
+                                      print_steps_enabled=False)
 
             # Best First Search
             informed_search.search(size_n=n, max_l=max_l, puzzle=puzzle, puzzle_num=puzzle_num,
-                                   print_steps_enabled=print_steps_enabled, search_type="bfs")
+                                   print_steps_enabled=False, search_type="bfs")
 
             # A* Search
+            # We print the steps for A* to be referred to in the demo explanation
             informed_search.search(size_n=n, max_l=max_l, puzzle=puzzle, puzzle_num=puzzle_num,
-                                   print_steps_enabled=print_steps_enabled, search_type="astar")
+                                   print_steps_enabled=True, search_type="astar")
 
 
 if __name__ == '__main__':

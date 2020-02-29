@@ -1,4 +1,4 @@
-from src.enum_classes import NodeInfo, VisitedNode
+from src.enum_classes import MovesList, VisitedNode
 from src.helper_functions import save_solution, flip_adjacent_nodes, position
 
 
@@ -20,12 +20,12 @@ def search(size_n, max_d, puzzle, puzzle_num, print_steps_enabled):
         visited_node = visit_next_node(solution_node, open_list, closed_list, node_info_list, search_path, current_depth, max_d)
         current_node = visited_node[VisitedNode.NODE]
         node_info = visited_node[VisitedNode.NODE_INFO]
-        current_depth = node_info[NodeInfo.G_N]
+        current_depth = node_info[MovesList.G_N]
 
         if print_steps_enabled:
             print("Visit node", current_node,
-                  "| Move:", node_info[NodeInfo.POSITION],
-                  "| Depth:", node_info[NodeInfo.G_N])
+                  "| Move:", node_info[MovesList.POSITION],
+                  "| Depth:", node_info[MovesList.G_N])
 
         # Check if the goal state is returned
         if current_depth == -1:
@@ -45,7 +45,7 @@ def search(size_n, max_d, puzzle, puzzle_num, print_steps_enabled):
                 print("Search path (" + str(len(search_path)) + ")", search_path)
                 print()
 
-    save_solution(search_path, node_info_list, puzzle, puzzle_num, "dfs", solution_node, solved, print_steps_enabled)
+    save_solution(search_path, node_info_list, puzzle, puzzle_num, "dfs", solution_node, solved)
 
 
 def create_child_nodes(initial_node, open_list, node_info_list, current_depth, size_n):
@@ -61,7 +61,7 @@ def create_child_nodes(initial_node, open_list, node_info_list, current_depth, s
             sorted_children.append(child_node)
         else:
             # Node exists, update depth if new child node is lower
-            node_depth = (node_info_list[child_node][NodeInfo.G_N])
+            node_depth = (node_info_list[child_node][MovesList.G_N])
             if node_depth > current_depth:
                 node_info_list[child_node] = [0, current_depth, 0, position(token, size_n), initial_node]
     # Tie breaker by sorting the children

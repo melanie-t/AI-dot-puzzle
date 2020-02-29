@@ -52,7 +52,7 @@ def max_adjacent_black(board):
                 if board[token_right] == '1':
                     adjacent_black += 1
 
-        # If it found an adjacent, then +1 to account for the token itself
+        # Update the max adjacent value if a higher adjacent value is found
         if adjacent_black > max_adjacent:
             max_adjacent = adjacent_black
 
