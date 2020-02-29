@@ -56,4 +56,4 @@ def max_adjacent_black(board):
         if adjacent_black > max_adjacent:
             max_adjacent = adjacent_black
 
-    return (int(number_of_blacks/max_adjacent))*number_of_blacks
+    return int((number_of_blacks/max_adjacent)*number_of_blacks)
