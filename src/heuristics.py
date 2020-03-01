@@ -1,10 +1,15 @@
-from math import sqrt
+from math import sqrt, ceil
 
 
-def calculate_heuristics(board):
-    # return number_of_black(board)
-    # return number_of_black_over_five(board)
-    return max_adjacent_black(board)
+def calculate_heuristics(board, heuristic_num):
+    if str(heuristic_num) == '1':
+        return number_of_black(board)
+
+    if str(heuristic_num) == '2':
+        return number_of_black_over_five(board)
+
+    if str(heuristic_num) == '3':
+        return max_adjacent_black(board)
 
 
 def number_of_black(board):
@@ -14,14 +19,14 @@ def number_of_black(board):
 
 def number_of_black_over_five(board):
     num_black = board.count("1")
-    return int((num_black/5)*num_black)
+    return ceil(num_black/5)
 
 
 def max_adjacent_black(board):
     length = int(len(board))
     n = int(sqrt(length))
     number_of_blacks = number_of_black(board)
-    max_adjacent = 0
+    max_adjacent = 1
 
     # Solution found
     if number_of_blacks == 0:
@@ -56,4 +61,6 @@ def max_adjacent_black(board):
         if adjacent_black > max_adjacent:
             max_adjacent = adjacent_black
 
-    return int((number_of_blacks/max_adjacent)*number_of_blacks)
+    ratio = number_of_blacks/max_adjacent
+
+    return int(ratio*number_of_blacks)

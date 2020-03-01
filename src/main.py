@@ -15,6 +15,7 @@ def main():
             break
         else:
             file_read(user_input, puzzles)
+
         # Initialize variables
         for i in range(0, len(puzzles)):
             n = int(puzzles[i][0])
@@ -22,6 +23,7 @@ def main():
             max_l = int(puzzles[i][2])
             puzzle = str(puzzles[i][3])
             puzzle_num = str(i + 1)
+            heuristic_num = 1
 
             print()
             print(n, max_d, max_l, puzzle)
@@ -32,12 +34,12 @@ def main():
 
             # Best First Search
             informed_search.search(size_n=n, max_l=max_l, puzzle=puzzle, puzzle_num=puzzle_num,
-                                   print_steps_enabled=False, search_type="bfs")
+                                   print_steps_enabled=False, search_type="bfs", heuristic_num=heuristic_num)
 
             # A* Search
             # We print the steps for A* to be referred to in the demo explanation
             informed_search.search(size_n=n, max_l=max_l, puzzle=puzzle, puzzle_num=puzzle_num,
-                                   print_steps_enabled=True, search_type="astar")
+                                   print_steps_enabled=True, search_type="astar", heuristic_num=heuristic_num)
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ from src.enum_classes import MovesList, OpenList, VisitedNode
 import itertools
 
 
-def search(size_n, max_l, puzzle, puzzle_num, print_steps_enabled, search_type):
+def search(size_n, max_l, puzzle, puzzle_num, print_steps_enabled, search_type, heuristic_num):
     # moves_list is a list with [f(n), g(n), h(n), position, parent_node]
     # Keeps track of all the moves discovered
     # Enum class MovesList will be used to access indices
@@ -63,7 +63,7 @@ def search(size_n, max_l, puzzle, puzzle_num, print_steps_enabled, search_type):
         # Continue looking for a solution
         # Create children nodes if the solution hasn't been found yet and the search_path max length hasn't been reached
         if len(search_path) < max_l:
-            create_child_nodes(current_node, open_list, moves_list, size_n, search_type)
+            create_child_nodes(current_node, open_list, moves_list, size_n, search_type, heuristic_num)
             if print_steps_enabled:
                 print(f"\tGenerating children for node {current_node}"
                       f"\n\tMoves list ({len(moves_list)}) {list(itertools.islice(moves_list, 0, 20))} ... "
@@ -100,7 +100,7 @@ def visit_next_node(solution_node, open_list, moves_list, search_path):
 
 # Function create_child_nodes generates the child nodes given a board configuration
 # It will also calculate the g(n), h(n) and f(n)
-def create_child_nodes(initial_node, open_list, moves_list, size_n, search_type):
+def create_child_nodes(initial_node, open_list, moves_list, size_n, search_type, heuristic_num):
     parent_depth = moves_list[initial_node][MovesList.G_N]
     child_depth = parent_depth + 1
 
@@ -109,7 +109,7 @@ def create_child_nodes(initial_node, open_list, moves_list, size_n, search_type)
         g_n = 0
         if search_type == "astar":
             g_n = child_depth
-        h_n = calculate_heuristics(child_node)
+        h_n = calculate_heuristics(child_node, heuristic_num)
         f_n = g_n + h_n
 
         # Check to see if the node exists already
