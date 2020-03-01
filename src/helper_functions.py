@@ -171,3 +171,20 @@ def save_solution(search_path, moves_list, puzzle, puzzle_num, search_type, solu
 
     # Save output file
     create_output_files(solved, search_path, solution_path, puzzle_num, search_type)
+
+
+def file_read(path, puzzles):
+    try:
+        game_file = open(path)
+        # use readline() to read the first line
+        for line in game_file:
+            game_info = line.replace("\n", "").split(" ")
+            puzzles.append(game_info)
+    except FileNotFoundError:
+        print("Unable to find game info file. Make sure the path is correct")
+    except IOError:
+        print("Other unspecified IO error")
+    except:
+        print("Unknown error")
+    else:
+        game_file.close()

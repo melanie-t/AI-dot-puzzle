@@ -1,21 +1,5 @@
 from src import depth_first_search, informed_search
-
-
-def file_read(path, puzzles):
-    try:
-        game_file = open(path)
-        # use readline() to read the first line
-        for line in game_file:
-            game_info = line.replace("\n", "").split(" ")
-            puzzles.append(game_info)
-    except FileNotFoundError:
-        print("Unable to find game info file. Make sure the path is correct")
-    except IOError:
-        print("Other unspecified IO error")
-    except:
-        print("Unknown error")
-    else:
-        game_file.close()
+from src.helper_functions import file_read
 
 
 def main():
