@@ -45,7 +45,7 @@ def search(size_n, max_d, puzzle, puzzle_num, print_steps_enabled):
                 print("Search path (" + str(len(search_path)) + ")", search_path)
                 print()
 
-    save_solution(search_path, node_info_list, puzzle, puzzle_num, "dfs", solution_node, solved)
+    save_solution(search_path, node_info_list, puzzle, puzzle_num, "dfs", solution_node, solved, print_steps_enabled)
 
 
 def create_child_nodes(initial_node, open_list, node_info_list, current_depth, size_n):

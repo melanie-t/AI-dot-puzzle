@@ -71,7 +71,7 @@ def search(size_n, max_l, puzzle, puzzle_num, print_steps_enabled, search_type):
                       f"\n\tSearch path ({len(search_path)}) {search_path[:20]}) ... "
                       f"\n")
 
-    save_solution(search_path, moves_list, puzzle, puzzle_num, search_type, solution_node, solved)
+    save_solution(search_path, moves_list, puzzle, puzzle_num, search_type, solution_node, solved, print_steps_enabled)
 
 
 # Function visit_next_node

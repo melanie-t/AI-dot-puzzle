@@ -153,15 +153,21 @@ def create_output_files(solved, search_path, solution_path, puzzle_num, search_t
         f_solution.close()
 
 
-def save_solution(search_path, moves_list, puzzle, puzzle_num, search_type, solution_node, solved):
+def save_solution(search_path, moves_list, puzzle, puzzle_num, search_type, solution_node, solved, print_steps_enabled):
     solution_path = []
     if solved:
         solution_path = create_solution_path(puzzle, solution_node, moves_list)
         print(f"[ {search_type} ][ Solution Found ]")
 
-        print(f"\tSearch path ({len(search_path)}) {search_path[:20]} ... "
-              f"\n"
-              f"\tSolution path ({len(solution_path)}) {solution_path}")
+        if print_steps_enabled:
+            print(f"\tSearch path ({len(search_path)}) {search_path[:20]} ... "
+                  f"\n"
+                  f"\tSolution path ({len(solution_path)}) {solution_path}")
+
+        else:
+            print(f"\tSearch path ({len(search_path)})"
+                  f"\n"
+                  f"\tSolution path ({len(solution_path)})")
 
     else:
         print(f"[ {search_type} ][ No Solution ]")
