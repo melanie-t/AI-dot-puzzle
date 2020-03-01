@@ -9,23 +9,25 @@ def main():
 
     puzzles = []  # Puzzles specified outside to keep all games separate
     heuristic_num = 0
+    valid_path = False
     while True:
         print("\nInput quit to terminate the application")
         user_input = str(input("Enter the path of game info text file (ex: input/games.txt): "))
         if user_input == "quit":
             break
         else:
-            file_read(user_input, puzzles)
+            valid_path = file_read(user_input, puzzles)
 
-        while True:
-            heuristic_num = str(input("Enter the heuristic number (1-3) to evaluate: "))
-            if heuristic_num == '1' or heuristic_num == '2' or heuristic_num == '3' or heuristic_num == 'quit':
+        if valid_path:
+            while True:
+                heuristic_num = str(input("Enter the heuristic number (1-3) to evaluate: "))
+                if heuristic_num == '1' or heuristic_num == '2' or heuristic_num == '3' or heuristic_num == 'quit':
+                    break
+                else:
+                    print("Invalid heuristic number, please select a heuristic from 1 to 3.")
+
+            if heuristic_num == "quit":
                 break
-            else:
-                print("Invalid heuristic number, please select a heuristic from 1 to 3.")
-
-        if heuristic_num == "quit":
-            break
 
         # Initialize variables
         for i in range(0, len(puzzles)):

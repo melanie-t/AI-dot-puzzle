@@ -194,3 +194,4 @@ def file_read(path, puzzles):
         print("Unknown error")
     else:
         game_file.close()
+        return True
