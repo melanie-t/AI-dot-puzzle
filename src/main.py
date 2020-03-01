@@ -8,6 +8,7 @@ def main():
     print("================================================")
 
     puzzles = []  # Puzzles specified outside to keep all games separate
+    heuristic_num = 0
     while True:
         print("\nInput quit to terminate the application")
         user_input = str(input("Enter the path of game info text file (ex: input/games.txt): "))
@@ -16,6 +17,16 @@ def main():
         else:
             file_read(user_input, puzzles)
 
+        while True:
+            heuristic_num = str(input("Enter the heuristic number (1-3) to evaluate: "))
+            if heuristic_num == '1' or heuristic_num == '2' or heuristic_num == '3' or heuristic_num == 'quit':
+                break
+            else:
+                print("Invalid heuristic number, please select a heuristic from 1 to 3.")
+
+        if heuristic_num == "quit":
+            break
+
         # Initialize variables
         for i in range(0, len(puzzles)):
             n = int(puzzles[i][0])
@@ -23,7 +34,6 @@ def main():
             max_l = int(puzzles[i][2])
             puzzle = str(puzzles[i][3])
             puzzle_num = str(i + 1)
-            heuristic_num = 3
 
             print()
             print(n, max_d, max_l, puzzle)
