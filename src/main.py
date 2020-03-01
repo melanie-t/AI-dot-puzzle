@@ -23,7 +23,7 @@ def main():
             max_l = int(puzzles[i][2])
             puzzle = str(puzzles[i][3])
             puzzle_num = str(i + 1)
-            heuristic_num = 1
+            heuristic_num = 3
 
             print()
             print(n, max_d, max_l, puzzle)
