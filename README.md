@@ -1,6 +1,6 @@
 # COMP472_Project_1_W20
 
-https://github.com/melanie-t/COMP472_Project1_W20
+https://github.com/melanie-t/AI-dot-puzzle
 
 Instructions For Lab Computers
 1. Download the project via clone or ZIP file
